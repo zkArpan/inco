@@ -1,6 +1,13 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Upload, Download, Sparkles, RefreshCw, Image as ImageIcon, X } from 'lucide-react';
 
+// Modern X Logo Component
+const XLogo: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
+
 // Embedded succinct.xyz logo (hidden from user interface)
 const SUCCINCT_LOGO_SVG = `data:image/svg+xml;base64,${btoa(`
 <svg width="72" height="103" viewBox="0 0 72 103" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -187,6 +194,13 @@ export const UploadPage: React.FC = () => {
     }
   };
 
+  const postToX = () => {
+    const tweetText = "Succinctified my profile with https://succinctify.vercel.app/ #gprove @succinctlabs";
+    const encodedText = encodeURIComponent(tweetText);
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
+    window.open(tweetUrl, '_blank', 'noopener,noreferrer');
+  };
+
   const resetAll = () => {
     setOriginalImage(null);
     setProcessedImage(null);
@@ -299,13 +313,23 @@ export const UploadPage: React.FC = () => {
             </div>
 
             {processedImage && (
-              <button
-                onClick={downloadImage}
-                className="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 hover:shadow-lg transition-all"
-              >
-                <Download className="w-5 h-5" />
-                <span>Download Succinctified Image</span>
-              </button>
+              <div className="space-y-3">
+                <button
+                  onClick={downloadImage}
+                  className="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 hover:shadow-lg transition-all"
+                >
+                  <Download className="w-5 h-5" />
+                  <span>Download Succinctified Image</span>
+                </button>
+                
+                <button
+                  onClick={postToX}
+                  className="w-full bg-black hover:bg-gray-800 text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all"
+                >
+                  <XLogo className="w-5 h-5" />
+                  <span>Post to X</span>
+                </button>
+              </div>
             )}
           </div>
         </div>
