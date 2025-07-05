@@ -422,15 +422,6 @@ export const UploadPage: React.FC = () => {
                 </button>
                 
                 <button
-                  onClick={postToX}
-                  className="w-full bg-black hover:bg-gray-800 text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all"
-                >
-                  <XLogo className="w-5 h-5" />
-                  <span>Post to X</span>
-                  {imageCopied && <Check className="w-5 h-5 text-green-400" />}
-                </button>
-                
-                <button
                   onClick={copyImageToClipboard}
                   className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-2xl font-semibold flex items-center justify-center space-x-2 transition-colors"
                 >
@@ -445,6 +436,15 @@ export const UploadPage: React.FC = () => {
                       <span>Copy Image</span>
                     </>
                   )}
+                </button>
+                
+                <button
+                  onClick={postToX}
+                  className="w-full bg-black hover:bg-gray-800 text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all"
+                >
+                  <XLogo className="w-5 h-5" />
+                  <span>Post to X</span>
+                  {imageCopied && <Check className="w-5 h-5 text-green-400" />}
                 </button>
               </div>
             )}
