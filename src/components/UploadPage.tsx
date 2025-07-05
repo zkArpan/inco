@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { Upload, Download, Sparkles, RefreshCw, Image as ImageIcon, X } from 'lucide-react';
+import { Upload, Download, Sparkles, RefreshCw, Image as ImageIcon, X, Copy, Check } from 'lucide-react';
 
 // Modern X Logo Component
 const XLogo: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
@@ -24,6 +24,8 @@ export const UploadPage: React.FC = () => {
   const [processedImage, setProcessedImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [imageCopied, setImageCopied] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -194,16 +196,58 @@ export const UploadPage: React.FC = () => {
     }
   };
 
-  const postToX = () => {
+  const copyImageToClipboard = async () => {
+    if (!processedImage || !canvasRef.current) return;
+
+    try {
+      // Convert canvas to blob
+      const canvas = canvasRef.current;
+      canvas.toBlob(async (blob) => {
+        if (blob) {
+          try {
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                'image/png': blob
+              })
+            ]);
+            setImageCopied(true);
+            setTimeout(() => setImageCopied(false), 3000);
+          } catch (err) {
+            console.error('Failed to copy image to clipboard:', err);
+            // Fallback: just show instructions
+            setShowInstructions(true);
+          }
+        }
+      }, 'image/png');
+    } catch (err) {
+      console.error('Failed to copy image:', err);
+      setShowInstructions(true);
+    }
+  };
+
+  const postToX = async () => {
+    // First copy the image to clipboard
+    await copyImageToClipboard();
+    
+    // Then open X with pre-filled text
     const tweetText = "Succinctified my profile with https://succinctify.vercel.app/ #gprove @succinctlabs";
     const encodedText = encodeURIComponent(tweetText);
     const tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
-    window.open(tweetUrl, '_blank', 'noopener,noreferrer');
+    
+    // Show instructions
+    setShowInstructions(true);
+    
+    // Open X in new tab
+    setTimeout(() => {
+      window.open(tweetUrl, '_blank', 'noopener,noreferrer');
+    }, 500);
   };
 
   const resetAll = () => {
     setOriginalImage(null);
     setProcessedImage(null);
+    setImageCopied(false);
+    setShowInstructions(false);
   };
 
   return (
@@ -222,6 +266,61 @@ export const UploadPage: React.FC = () => {
             Transform your profile picture with signature succinct pink glow effect 
           </p>
         </div>
+
+        {/* Instructions Modal */}
+        {showInstructions && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <XLogo className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Almost There!</h3>
+                <div className="space-y-3 text-left mb-6">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-pink-600 text-sm font-bold">1</span>
+                    </div>
+                    <p className="text-gray-700">X will open with your tweet text ready</p>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-pink-600 text-sm font-bold">2</span>
+                    </div>
+                    <p className="text-gray-700">
+                      {imageCopied ? 
+                        "Your image is copied! Paste it (Ctrl+V or Cmd+V) in the tweet" :
+                        "Click the photo icon and upload your succinctified image"
+                      }
+                    </p>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-pink-600 text-sm font-bold">3</span>
+                    </div>
+                    <p className="text-gray-700">Hit Tweet and show off your succinctified profile!</p>
+                  </div>
+                </div>
+                
+                {imageCopied && (
+                  <div className="bg-green-50 border border-green-200 rounded-xl p-3 mb-4">
+                    <div className="flex items-center justify-center space-x-2 text-green-700">
+                      <Check className="w-5 h-5" />
+                      <span className="font-semibold">Image copied to clipboard!</span>
+                    </div>
+                  </div>
+                )}
+                
+                <button
+                  onClick={() => setShowInstructions(false)}
+                  className="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white py-3 rounded-2xl font-semibold hover:shadow-lg transition-all"
+                >
+                  Got it!
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
           {/* Upload Section */}
@@ -328,6 +427,24 @@ export const UploadPage: React.FC = () => {
                 >
                   <XLogo className="w-5 h-5" />
                   <span>Post to X</span>
+                  {imageCopied && <Check className="w-5 h-5 text-green-400" />}
+                </button>
+                
+                <button
+                  onClick={copyImageToClipboard}
+                  className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-2xl font-semibold flex items-center justify-center space-x-2 transition-colors"
+                >
+                  {imageCopied ? (
+                    <>
+                      <Check className="w-5 h-5 text-green-600" />
+                      <span>Image Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-5 h-5" />
+                      <span>Copy Image</span>
+                    </>
+                  )}
                 </button>
               </div>
             )}
