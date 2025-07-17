@@ -212,11 +212,31 @@ export const UploadPage: React.FC = () => {
         // Load and draw the embedded Incofy logo
         const logoImg = new Image();
         logoImg.onload = () => {
+          // Calculate proper scaling to maintain aspect ratio
+          const logoAspectRatio = logoImg.naturalWidth / logoImg.naturalHeight;
+          const availableSize = logoSize - 16; // Account for padding
+          
+          let drawWidth, drawHeight, drawX, drawY;
+          
+          if (logoAspectRatio > 1) {
+            // Logo is wider than tall
+            drawWidth = availableSize;
+            drawHeight = availableSize / logoAspectRatio;
+          } else {
+            // Logo is taller than wide or square
+            drawHeight = availableSize;
+            drawWidth = availableSize * logoAspectRatio;
+          }
+          
+          // Center the logo within the circle
+          drawX = logoX + (logoSize - drawWidth) / 2;
+          drawY = logoY + (logoSize - drawHeight) / 2;
+          
           ctx.save();
           ctx.beginPath();
           ctx.arc(logoX + logoSize/2, logoY + logoSize/2, logoSize/2 - 8, 0, 2 * Math.PI);
           ctx.clip();
-          ctx.drawImage(logoImg, logoX + 8, logoY + 8, logoSize - 16, logoSize - 16);
+          ctx.drawImage(logoImg, drawX, drawY, drawWidth, drawHeight);
           ctx.restore();
 
           setProcessedImage(canvas.toDataURL());
