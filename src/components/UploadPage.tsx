@@ -504,9 +504,7 @@ export const UploadPage: React.FC = () => {
                   <p className="text-gray-600 text-lg">
                     {originalImage ? 'Ready to incofy!' : 'Upload an image to see the magic'}
                   </p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Features: Pink glow • Curved tagline • Incofy logo
-                  </p>
+                 
                 </div>
               )}
             </div>
