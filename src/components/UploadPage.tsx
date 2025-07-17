@@ -9,13 +9,14 @@ const XLogo: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
 );
 
 // Embedded succinct.xyz logo (hidden from user interface)
-const SUCCINCT_LOGO_SVG = `data:image/svg+xml;base64,${btoa(`
-<svg width="72" height="103" viewBox="0 0 72 103" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M71.2968 10.2937V30.8773L53.4726 41.1672V20.5836L35.6484 30.8736V51.4572L17.8242 41.1672V20.5836L53.4726 0L71.2968 10.2937Z" fill="#FE11C5"/>
-<path opacity="0.4" d="M35.6484 51.4579L17.8242 61.7478L0 51.4579L17.8242 41.168L35.6484 51.4579Z" fill="#FE11C5"/>
-<path d="M53.4725 61.747V82.3306L17.8242 102.914L0 92.6205V72.0369L17.8242 61.747V82.3306L35.6484 72.0407V51.457L53.4725 61.747Z" fill="#FE11C5"/>
-<path opacity="0.4" d="M71.2968 51.4579L53.4726 61.7478L35.6484 51.4579L53.4726 41.168L71.2968 51.4579Z" fill="#FE11C5"/>
+const INCO_LOGO_SVG = `data:image/svg+xml;base64,${btoa(`
+<svg width="738" height="248" viewBox="0 0 738 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 56C24 38.3269 38.2886 24 55.9145 24H191.551C209.177 24 223.466 38.3269 223.466 56V192C223.466 209.673 209.177 224 191.551 224H55.9145C38.2886 224 24 209.673 24 192V56Z" fill="#3673F5"/>
+<path d="M61.8986 162L82.0047 86H103.786L83.6802 162H61.8986Z" fill="white"/>
+<path d="M103.786 162L123.893 86H145.674L125.568 162H103.786Z" fill="white"/>
+<path d="M145.674 162L165.78 86H187.562L167.456 162H145.674Z" fill="white"/>
 </svg>
+
 
 `)}`;
 
@@ -216,7 +217,7 @@ export const UploadPage: React.FC = () => {
           setProcessedImage(canvas.toDataURL());
           setIsProcessing(false);
         };
-        logoImg.src = SUCCINCT_LOGO_SVG;
+        logoImg.src = INCO_LOGO_SVG;
       }
     };
     
