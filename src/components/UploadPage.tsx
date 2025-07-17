@@ -8,7 +8,7 @@ const XLogo: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// Embedded succinct.xyz logo (hidden from user interface)
+// Embedded inco.xyz logo (hidden from user interface)
 const INCO_LOGO_SVG = `data:image/svg+xml;base64,${btoa(`
 <svg width="738" height="248" viewBox="0 0 738 248" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M287.295 175.68V72H309.268V175.68H287.295Z" fill="#3673F5"/>
