@@ -8,7 +8,7 @@ const XLogo: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// Embedded inco.xyz logo (hidden from user interface)
+// Embedded INCO logo (hidden from user interface)
 const INCO_LOGO_SVG = `data:image/svg+xml;base64,${btoa(`
 <svg width="738" height="248" viewBox="0 0 738 248" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M287.295 175.68V72H309.268V175.68H287.295Z" fill="#3673F5"/>
@@ -230,8 +230,7 @@ export const UploadPage: React.FC = () => {
         // Add tagline text along 50% of the border (top arc)
         const taglineRadius = size/2 - 25;
         // Start from top-left and span 50% of circle (π radians)
-        drawTextAlongCircle(ctx, 'The confidentiality
-layer of web3', size/2, size/2, taglineRadius, -Math.PI * 0.75);
+        drawTextAlongCircle(ctx, 'Incofy - Transform Your Profile', size/2, size/2, taglineRadius, -Math.PI * 0.75);
 
         // Add embedded Incofy logo in bottom left
         const logoSize = 80;
