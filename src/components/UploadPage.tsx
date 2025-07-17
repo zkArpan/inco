@@ -130,16 +130,17 @@ export const UploadPage: React.FC = () => {
         ctx.fillRect(0, 0, size, size);
         
         // Add multiple layers of blue cloud effects across entire canvas
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 25; i++) {
           const cloudX = (size/2) + Math.cos(i * Math.PI / 6) * (size/3 + Math.random() * 80);
           const cloudY = (size/2) + Math.sin(i * Math.PI / 6) * (size/3 + Math.random() * 80);
-          const cloudSize = 25 + Math.random() * 35;
+          const cloudSize = 20 + Math.random() * 45;
+          const opacity = 0.3 + Math.random() * 0.5; // Random opacity between 0.3-0.8
           
           const cloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
-          cloudGrad.addColorStop(0, 'rgba(147, 197, 253, 0.7)');
-          cloudGrad.addColorStop(0.4, 'rgba(59, 130, 246, 0.5)');
-          cloudGrad.addColorStop(0.8, 'rgba(219, 234, 254, 0.6)');
-          cloudGrad.addColorStop(1, 'rgba(239, 246, 255, 0.3)');
+          cloudGrad.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.9})`);
+          cloudGrad.addColorStop(0.4, `rgba(59, 130, 246, ${opacity * 0.7})`);
+          cloudGrad.addColorStop(0.8, `rgba(219, 234, 254, ${opacity * 0.8})`);
+          cloudGrad.addColorStop(1, `rgba(239, 246, 255, ${opacity * 0.4})`);
           
           ctx.fillStyle = cloudGrad;
           ctx.beginPath();
@@ -147,18 +148,56 @@ export const UploadPage: React.FC = () => {
           ctx.fill();
         }
         
-        // Add additional scattered smaller clouds for more depth
-        for (let i = 0; i < 20; i++) {
+        // Add medium-sized overlapping clouds
+        for (let i = 0; i < 35; i++) {
           const cloudX = Math.random() * size;
           const cloudY = Math.random() * size;
-          const cloudSize = 8 + Math.random() * 15;
+          const cloudSize = 15 + Math.random() * 25;
+          const opacity = 0.2 + Math.random() * 0.6; // Random opacity between 0.2-0.8
           
           const smallCloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
-          smallCloudGrad.addColorStop(0, 'rgba(219, 234, 254, 0.6)');
-          smallCloudGrad.addColorStop(0.6, 'rgba(239, 246, 255, 0.4)');
-          smallCloudGrad.addColorStop(1, 'rgba(255, 255, 255, 0.2)');
+          smallCloudGrad.addColorStop(0, `rgba(219, 234, 254, ${opacity * 0.8})`);
+          smallCloudGrad.addColorStop(0.6, `rgba(239, 246, 255, ${opacity * 0.6})`);
+          smallCloudGrad.addColorStop(1, `rgba(255, 255, 255, ${opacity * 0.3})`);
           
           ctx.fillStyle = smallCloudGrad;
+          ctx.beginPath();
+          ctx.arc(cloudX, cloudY, cloudSize, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+        
+        // Add many small overlapping cloud bubbles for texture
+        for (let i = 0; i < 50; i++) {
+          const cloudX = Math.random() * size;
+          const cloudY = Math.random() * size;
+          const cloudSize = 5 + Math.random() * 12;
+          const opacity = 0.1 + Math.random() * 0.4; // Random opacity between 0.1-0.5
+          
+          const tinyCloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
+          tinyCloudGrad.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.9})`);
+          tinyCloudGrad.addColorStop(0.5, `rgba(219, 234, 254, ${opacity * 0.7})`);
+          tinyCloudGrad.addColorStop(1, `rgba(255, 255, 255, ${opacity * 0.2})`);
+          
+          ctx.fillStyle = tinyCloudGrad;
+          ctx.beginPath();
+          ctx.arc(cloudX, cloudY, cloudSize, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+        
+        // Add extra large soft clouds for depth
+        for (let i = 0; i < 8; i++) {
+          const cloudX = Math.random() * size;
+          const cloudY = Math.random() * size;
+          const cloudSize = 40 + Math.random() * 60;
+          const opacity = 0.1 + Math.random() * 0.3; // Very soft opacity between 0.1-0.4
+          
+          const largeCloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
+          largeCloudGrad.addColorStop(0, `rgba(59, 130, 246, ${opacity * 0.6})`);
+          largeCloudGrad.addColorStop(0.3, `rgba(147, 197, 253, ${opacity * 0.8})`);
+          largeCloudGrad.addColorStop(0.7, `rgba(219, 234, 254, ${opacity * 0.5})`);
+          largeCloudGrad.addColorStop(1, `rgba(239, 246, 255, ${opacity * 0.2})`);
+          
+          ctx.fillStyle = largeCloudGrad;
           ctx.beginPath();
           ctx.arc(cloudX, cloudY, cloudSize, 0, 2 * Math.PI);
           ctx.fill();
