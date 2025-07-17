@@ -502,7 +502,7 @@ export const UploadPage: React.FC = () => {
                 <div className="text-center">
                   <Sparkles className="w-16 h-16 text-pink-400 mx-auto mb-4" />
                   <p className="text-gray-600 text-lg">
-                    {originalImage ? 'Ready to incofy!' : 'Upload an image to see the magic'}
+                    {originalImage ? 'Ready to incofy!' : 'Upload an image to Incofy'}
                   </p>
                  
                 </div>
