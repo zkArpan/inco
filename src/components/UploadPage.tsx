@@ -113,28 +113,46 @@ export const UploadPage: React.FC = () => {
         // Clear canvas
         ctx.clearRect(0, 0, size, size);
 
-        // Create cloud-like background effect
-        const cloudGradient = ctx.createRadialGradient(size/2, size/2, size/2 - 80, size/2, size/2, size/2);
-        cloudGradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
-        cloudGradient.addColorStop(0.4, 'rgba(147, 197, 253, 0.4)');
-        cloudGradient.addColorStop(0.7, 'rgba(219, 234, 254, 0.5)');
-        cloudGradient.addColorStop(1, 'rgba(239, 246, 255, 0.3)');
+        // Create blue cloudy background effect for entire canvas
+        const mainCloudGradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+        mainCloudGradient.addColorStop(0, 'rgba(147, 197, 253, 0.8)');
+        mainCloudGradient.addColorStop(0.3, 'rgba(59, 130, 246, 0.6)');
+        mainCloudGradient.addColorStop(0.6, 'rgba(219, 234, 254, 0.7)');
+        mainCloudGradient.addColorStop(1, 'rgba(239, 246, 255, 0.9)');
         
-        ctx.fillStyle = cloudGradient;
+        ctx.fillStyle = mainCloudGradient;
         ctx.fillRect(0, 0, size, size);
         
-        // Add cloud-like scattered effects
-        for (let i = 0; i < 8; i++) {
-          const cloudX = (size/2) + Math.cos(i * Math.PI / 4) * (size/2 - 30);
-          const cloudY = (size/2) + Math.sin(i * Math.PI / 4) * (size/2 - 30);
-          const cloudSize = 20 + Math.random() * 15;
+        // Add multiple layers of blue cloud effects across entire canvas
+        for (let i = 0; i < 12; i++) {
+          const cloudX = (size/2) + Math.cos(i * Math.PI / 6) * (size/3 + Math.random() * 80);
+          const cloudY = (size/2) + Math.sin(i * Math.PI / 6) * (size/3 + Math.random() * 80);
+          const cloudSize = 25 + Math.random() * 35;
           
           const cloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
-          cloudGrad.addColorStop(0, 'rgba(147, 197, 253, 0.6)');
-          cloudGrad.addColorStop(0.5, 'rgba(219, 234, 254, 0.4)');
-          cloudGrad.addColorStop(1, 'rgba(239, 246, 255, 0.2)');
+          cloudGrad.addColorStop(0, 'rgba(147, 197, 253, 0.7)');
+          cloudGrad.addColorStop(0.4, 'rgba(59, 130, 246, 0.5)');
+          cloudGrad.addColorStop(0.8, 'rgba(219, 234, 254, 0.6)');
+          cloudGrad.addColorStop(1, 'rgba(239, 246, 255, 0.3)');
           
           ctx.fillStyle = cloudGrad;
+          ctx.beginPath();
+          ctx.arc(cloudX, cloudY, cloudSize, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+        
+        // Add additional scattered smaller clouds for more depth
+        for (let i = 0; i < 20; i++) {
+          const cloudX = Math.random() * size;
+          const cloudY = Math.random() * size;
+          const cloudSize = 8 + Math.random() * 15;
+          
+          const smallCloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
+          smallCloudGrad.addColorStop(0, 'rgba(219, 234, 254, 0.6)');
+          smallCloudGrad.addColorStop(0.6, 'rgba(239, 246, 255, 0.4)');
+          smallCloudGrad.addColorStop(1, 'rgba(255, 255, 255, 0.2)');
+          
+          ctx.fillStyle = smallCloudGrad;
           ctx.beginPath();
           ctx.arc(cloudX, cloudY, cloudSize, 0, 2 * Math.PI);
           ctx.fill();
