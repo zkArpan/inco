@@ -330,8 +330,7 @@ export const UploadPage: React.FC = () => {
     await copyImageToClipboard();
     
     // Then open X with pre-filled text
-    const tweetText = "Incofied my profile with https://incofy.vercel.app/ #incommunity @inconetwork
-";
+    const tweetText = "Incofied my profile with https://incofy.vercel.app/ #incommunity , @inconetwork";
     const encodedText = encodeURIComponent(tweetText);
     const tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
     
