@@ -81,21 +81,20 @@ export const UploadPage: React.FC = () => {
       ctx.translate(x, y);
       ctx.rotate(angle + Math.PI / 2);
       
-      if (char === 'P' && text.startsWith('Prove')) {
-        // Make "Prove" bold and pink
-        ctx.fillStyle = '#3b82f6';
-        ctx.font = 'bold 16px Inter';
-      } else if (text.startsWith('Prove') && i < 5) {
-        ctx.fillStyle = '#3b82f6';
-        ctx.font = 'bold 16px Inter';
-      } else {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-        ctx.font = '16px Inter';
-      }
-      
+      // Set font and styling
+      ctx.font = 'bold 14px Inter';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
+      
+      // Add black border/stroke for better visibility
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.8)';
+      ctx.lineWidth = 3;
+      ctx.strokeText(char, 0, 0);
+      
+      // Add white fill text
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
       ctx.fillText(char, 0, 0);
+      
       ctx.restore();
     }
   };
@@ -230,7 +229,7 @@ export const UploadPage: React.FC = () => {
         // Add tagline text along 50% of the border (top arc)
         const taglineRadius = size/2 - 25;
         // Start from top-left and span 50% of circle (π radians)
-        drawTextAlongCircle(ctx, 'Incofy - Transform Your Profile', size/2, size/2, taglineRadius, -Math.PI * 0.75);
+        drawTextAlongCircle(ctx, 'The confidentiality layer of web3', size/2, size/2, taglineRadius, -Math.PI * 0.75);
 
         // Add embedded Incofy logo in bottom left
         const logoSize = 80;
