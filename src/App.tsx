@@ -4,7 +4,7 @@ import { UploadPage } from './components/UploadPage';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-sky-50 to-indigo-50">
       <Header />
       <UploadPage />
     </div>

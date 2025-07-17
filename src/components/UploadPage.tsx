@@ -77,10 +77,10 @@ export const UploadPage: React.FC = () => {
       
       if (char === 'P' && text.startsWith('Prove')) {
         // Make "Prove" bold and pink
-        ctx.fillStyle = '#ec4899';
+        ctx.fillStyle = '#3b82f6';
         ctx.font = 'bold 16px Inter';
       } else if (text.startsWith('Prove') && i < 5) {
-        ctx.fillStyle = '#ec4899';
+        ctx.fillStyle = '#3b82f6';
         ctx.font = 'bold 16px Inter';
       } else {
         ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
@@ -113,14 +113,32 @@ export const UploadPage: React.FC = () => {
         // Clear canvas
         ctx.clearRect(0, 0, size, size);
 
-        // Create outer glow effect
-        const glowGradient = ctx.createRadialGradient(size/2, size/2, size/2 - 60, size/2, size/2, size/2);
-        glowGradient.addColorStop(0, 'rgba(236, 72, 153, 0.4)');
-        glowGradient.addColorStop(0.7, 'rgba(147, 51, 234, 0.3)');
-        glowGradient.addColorStop(1, 'rgba(147, 51, 234, 0.1)');
+        // Create cloud-like background effect
+        const cloudGradient = ctx.createRadialGradient(size/2, size/2, size/2 - 80, size/2, size/2, size/2);
+        cloudGradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+        cloudGradient.addColorStop(0.4, 'rgba(147, 197, 253, 0.4)');
+        cloudGradient.addColorStop(0.7, 'rgba(219, 234, 254, 0.5)');
+        cloudGradient.addColorStop(1, 'rgba(239, 246, 255, 0.3)');
         
-        ctx.fillStyle = glowGradient;
+        ctx.fillStyle = cloudGradient;
         ctx.fillRect(0, 0, size, size);
+        
+        // Add cloud-like scattered effects
+        for (let i = 0; i < 8; i++) {
+          const cloudX = (size/2) + Math.cos(i * Math.PI / 4) * (size/2 - 30);
+          const cloudY = (size/2) + Math.sin(i * Math.PI / 4) * (size/2 - 30);
+          const cloudSize = 20 + Math.random() * 15;
+          
+          const cloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
+          cloudGrad.addColorStop(0, 'rgba(147, 197, 253, 0.6)');
+          cloudGrad.addColorStop(0.5, 'rgba(219, 234, 254, 0.4)');
+          cloudGrad.addColorStop(1, 'rgba(239, 246, 255, 0.2)');
+          
+          ctx.fillStyle = cloudGrad;
+          ctx.beginPath();
+          ctx.arc(cloudX, cloudY, cloudSize, 0, 2 * Math.PI);
+          ctx.fill();
+        }
 
         // Create clipping path for circular image
         ctx.save();
@@ -132,8 +150,8 @@ export const UploadPage: React.FC = () => {
         ctx.drawImage(img, 40, 40, size - 80, size - 80);
         ctx.restore();
 
-        // Add pink border
-        ctx.strokeStyle = 'rgba(236, 72, 153, 0.8)';
+        // Add blue border
+        ctx.strokeStyle = 'rgba(59, 130, 246, 0.8)';
         ctx.lineWidth = 8;
         ctx.beginPath();
         ctx.arc(size/2, size/2, size/2 - 40, 0, 2 * Math.PI);
@@ -149,9 +167,9 @@ export const UploadPage: React.FC = () => {
         // Add tagline text along 50% of the border (top arc)
         const taglineRadius = size/2 - 25;
         // Start from top-left and span 50% of circle (π radians)
-        drawTextAlongCircle(ctx, 'Prove the world\'s software', size/2, size/2, taglineRadius, -Math.PI * 0.75);
+        drawTextAlongCircle(ctx, 'Incofy - Transform Your Profile', size/2, size/2, taglineRadius, -Math.PI * 0.75);
 
-        // Add embedded succinct logo in bottom left
+        // Add embedded Incofy logo in bottom left
         const logoSize = 80;
         const logoX = 50;
         const logoY = size - logoSize - 50;
@@ -163,11 +181,11 @@ export const UploadPage: React.FC = () => {
         ctx.fill();
 
         // Add logo border
-        ctx.strokeStyle = 'rgba(236, 72, 153, 0.3)';
+        ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Load and draw the embedded succinct logo
+        // Load and draw the embedded Incofy logo
         const logoImg = new Image();
         logoImg.onload = () => {
           ctx.save();
@@ -190,7 +208,7 @@ export const UploadPage: React.FC = () => {
   const downloadImage = () => {
     if (processedImage) {
       const link = document.createElement('a');
-      link.download = 'succinctify-profile-enhanced.png';
+      link.download = 'incofy-profile-enhanced.png';
       link.href = processedImage;
       link.click();
     }
@@ -230,7 +248,7 @@ export const UploadPage: React.FC = () => {
     await copyImageToClipboard();
     
     // Then open X with pre-filled text
-    const tweetText = "Succinctified my profile with https://succinctify.vercel.app/ #gprove @succinctlabs";
+    const tweetText = "Incofied my profile with https://incofy.vercel.app/ #incofy";
     const encodedText = encodeURIComponent(tweetText);
     const tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
     
@@ -251,19 +269,19 @@ export const UploadPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-sky-50 to-indigo-50 py-8 px-4">
       <canvas ref={canvasRef} className="hidden" />
       
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            <span className="bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
-              Succinctify
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Incofy
             </span>{' '}
             Your Profile
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Transform your profile picture with signature succinct pink glow effect 
+            Transform your profile picture with signature blue cloud effect 
           </p>
         </div>
 
@@ -278,27 +296,27 @@ export const UploadPage: React.FC = () => {
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Almost There!</h3>
                 <div className="space-y-3 text-left mb-6">
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-pink-600 text-sm font-bold">1</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-blue-600 text-sm font-bold">1</span>
                     </div>
                     <p className="text-gray-700">X will open with your tweet text ready</p>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-pink-600 text-sm font-bold">2</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-blue-600 text-sm font-bold">2</span>
                     </div>
                     <p className="text-gray-700">
                       {imageCopied ? 
                         "Your image is copied! Paste it (Ctrl+V or Cmd+V) in the tweet" :
-                        "Click the photo icon and upload your succinctified image"
+                        "Click the photo icon and upload your incofied image"
                       }
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-pink-600 text-sm font-bold">3</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-blue-600 text-sm font-bold">3</span>
                     </div>
-                    <p className="text-gray-700">Hit Tweet and show off your succinctified profile!</p>
+                    <p className="text-gray-700">Hit Tweet and show off your incofied profile!</p>
                   </div>
                 </div>
                 
@@ -313,7 +331,7 @@ export const UploadPage: React.FC = () => {
                 
                 <button
                   onClick={() => setShowInstructions(false)}
-                  className="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white py-3 rounded-2xl font-semibold hover:shadow-lg transition-all"
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-2xl font-semibold hover:shadow-lg transition-all"
                 >
                   Got it!
                 </button>
@@ -388,7 +406,7 @@ export const UploadPage: React.FC = () => {
           <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-pink-100">
             <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
               <Sparkles className="w-6 h-6 mr-3" />
-              Succinctified Preview
+              Incofied Preview
             </h3>
             
             <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center mb-6">
@@ -402,10 +420,10 @@ export const UploadPage: React.FC = () => {
                 <div className="text-center">
                   <Sparkles className="w-16 h-16 text-pink-400 mx-auto mb-4" />
                   <p className="text-gray-600 text-lg">
-                    {originalImage ? 'Ready to succinctify!' : 'Upload an image to see the magic'}
+                    {originalImage ? 'Ready to incofy!' : 'Upload an image to see the magic'}
                   </p>
                   <p className="text-sm text-gray-500 mt-2">
-                    Features: Pink glow • Curved tagline • Succinct logo
+                    Features: Pink glow • Curved tagline • Incofy logo
                   </p>
                 </div>
               )}
@@ -418,7 +436,7 @@ export const UploadPage: React.FC = () => {
                   className="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 hover:shadow-lg transition-all"
                 >
                   <Download className="w-5 h-5" />
-                  <span>Download Succinctified Image</span>
+                  <span>Download Incofied Image</span>
                 </button>
                 
                 <button
@@ -462,12 +480,12 @@ export const UploadPage: React.FC = () => {
               {isProcessing ? (
                 <>
                   <RefreshCw className="w-6 h-6 animate-spin" />
-                  <span>Succinctifying...</span>
+                  <span>Incofying...</span>
                 </>
               ) : (
                 <>
                   <Sparkles className="w-6 h-6" />
-                  <span>Succinctify My Profile</span>
+                  <span>Incofy My Profile</span>
                 </>
               )}
             </button>
