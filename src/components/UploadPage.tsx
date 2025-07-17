@@ -213,79 +213,11 @@ export const UploadPage: React.FC = () => {
         ctx.restore();
 
         // Add blue border
-        // Create wavy blue border with cloud-like waves
-        const borderRadius = size/2 - 40;
-        const waveCount = 24; // Number of waves around the circle
-        const waveAmplitude = 12; // How far waves extend outward
-        
         ctx.strokeStyle = 'rgba(59, 130, 246, 0.8)';
         ctx.lineWidth = 8;
         ctx.beginPath();
-        
-        for (let i = 0; i <= waveCount * 8; i++) {
-          const angle = (i / (waveCount * 8)) * 2 * Math.PI;
-          // Create wavy effect using multiple sine waves
-          const wave1 = Math.sin(angle * 3) * waveAmplitude * 0.6;
-          const wave2 = Math.sin(angle * 7) * waveAmplitude * 0.3;
-          const wave3 = Math.sin(angle * 11) * waveAmplitude * 0.2;
-          const totalWave = wave1 + wave2 + wave3;
-          
-          const radius = borderRadius + totalWave;
-          const x = size/2 + Math.cos(angle) * radius;
-          const y = size/2 + Math.sin(angle) * radius;
-          
-          if (i === 0) {
-            ctx.moveTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
-          }
-        }
-        ctx.closePath();
+        ctx.arc(size/2, size/2, size/2 - 40, 0, 2 * Math.PI);
         ctx.stroke();
-        
-        // Add big cloudy waves overlapping the tagline area
-        for (let i = 0; i < 16; i++) {
-          const angle = (i / 16) * 2 * Math.PI;
-          const waveRadius = borderRadius + 15 + Math.random() * 25; // Extend beyond border
-          const cloudSize = 25 + Math.random() * 35; // Large cloud bubbles
-          const opacity = 0.2 + Math.random() * 0.6; // Variable opacity
-          
-          const cloudX = size/2 + Math.cos(angle) * waveRadius;
-          const cloudY = size/2 + Math.sin(angle) * waveRadius;
-          
-          // Create cloud gradient
-          const cloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
-          cloudGrad.addColorStop(0, `rgba(59, 130, 246, ${opacity * 0.8})`);
-          cloudGrad.addColorStop(0.3, `rgba(147, 197, 253, ${opacity * 0.9})`);
-          cloudGrad.addColorStop(0.6, `rgba(219, 234, 254, ${opacity * 0.7})`);
-          cloudGrad.addColorStop(1, `rgba(255, 255, 255, ${opacity * 0.3})`);
-          
-          ctx.fillStyle = cloudGrad;
-          ctx.beginPath();
-          ctx.arc(cloudX, cloudY, cloudSize, 0, 2 * Math.PI);
-          ctx.fill();
-        }
-        
-        // Add additional smaller overlapping waves for more texture
-        for (let i = 0; i < 32; i++) {
-          const angle = (i / 32) * 2 * Math.PI + Math.random() * 0.5; // Add randomness
-          const waveRadius = borderRadius + 8 + Math.random() * 30;
-          const cloudSize = 12 + Math.random() * 20;
-          const opacity = 0.15 + Math.random() * 0.5;
-          
-          const cloudX = size/2 + Math.cos(angle) * waveRadius;
-          const cloudY = size/2 + Math.sin(angle) * waveRadius;
-          
-          const smallCloudGrad = ctx.createRadialGradient(cloudX, cloudY, 0, cloudX, cloudY, cloudSize);
-          smallCloudGrad.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.9})`);
-          smallCloudGrad.addColorStop(0.5, `rgba(219, 234, 254, ${opacity * 0.7})`);
-          smallCloudGrad.addColorStop(1, `rgba(255, 255, 255, ${opacity * 0.2})`);
-          
-          ctx.fillStyle = smallCloudGrad;
-          ctx.beginPath();
-          ctx.arc(cloudX, cloudY, cloudSize, 0, 2 * Math.PI);
-          ctx.fill();
-        }
 
         // Add inner highlight
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
