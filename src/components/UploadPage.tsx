@@ -229,7 +229,7 @@ export const UploadPage: React.FC = () => {
         // Add tagline text along 50% of the border (top arc)
         const taglineRadius = size/2 - 25;
         // Start from top-left and span 50% of circle (π radians)
-        drawTextAlongCircle(ctx, 'The confidentiality layer of web3', size/2, size/2, taglineRadius, -Math.PI * 0.75);
+        drawTextAlongCircle(ctx, 'Confidential Composability', size/2, size/2, taglineRadius, -Math.PI * 0.75);
 
         // Add embedded Incofy logo in bottom left
         const logoSize = 80;
