@@ -1,1 +1,1 @@
-succinctify
+incofy
