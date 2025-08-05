@@ -242,8 +242,8 @@ export const UploadPage: React.FC = () => {
 
         // Add embedded Incofy logo in bottom left
         const logoSize = 80;
-        const logoX = 50;
-        const logoY = size - logoSize - 50;
+        const logoX = 90; // Moved inwards for 50-50 border positioning
+        const logoY = size - logoSize - 90; // Moved inwards for 50-50 border positioning
 
         // Create circular background for logo
         ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
